@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Agent Immobilier IA — Heitier mambini</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --cream: #F7F4EF;
+  --dark: #1A1A18;
+  --stone: #8C8880;
+  --gold: #B8965A;
+  --gold-light: #E8D9BE;
+  --gold-pale: #FAF5ED;
+  --green: #3B6D11;
+  --green-light: #EAF3DE;
+  --red-light: #FAECE7;
+  --red: #993C1D;
+  --amber-light: #FAEEDA;
+  --amber: #854F0B;
+  --blue-dark: #0C2D4A;
+  --blue: #185FA5;
+  --blue-light: #EAF2FB;
+  --border: rgba(26,26,24,0.1);
+  --radius: 10px;
+  --radius-lg: 16px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--dark);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── TOP BAR ─────────────────────────────── */
+.topbar {
+  background: var(--dark);
+  color: #fff;
+  padding: 0 32px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px;
+  letter-spacing: .02em;
+}
+.logo-icon {
+  width: 30px; height: 30px;
+  background: var(--gold);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 500; color: var(--dark);
+}
+.topbar-right {
+  display: flex; align-items: center; gap: 16px;
+  font-size: 13px; color: rgba(255,255,255,.55);
+}
+.status-pill {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.07);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  color: rgba(255,255,255,.8);
+}
+.status-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #4CAF50;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+
+.demo-badge {
+  background: var(--gold);
+  color: var(--dark);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: .04em;
+}
+
+/* ── HERO ─────────────────────────────────── */
+.hero {
+  background: var(--dark);
+  padding: 40px 32px 48px;
+  text-align: center;
+  color: #fff;
+  border-bottom: 1px solid rgba(184,150,90,.25);
+}
+.hero h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 400;
+  line-height: 1.15;
+  margin-bottom: 14px;
+  color: #fff;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--gold);
+}
+.hero p {
+  font-size: 15px;
+  color: rgba(255,255,255,.55);
+  max-width: 500px;
+  margin: 0 auto 28px;
+  line-height: 1.65;
+}
+.hero-stats {
+  display: inline-flex;
+  gap: 0;
+  border: 1px solid rgba(184,150,90,.3);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: rgba(255,255,255,.04);
+}
+.stat-item {
+  padding: 14px 28px;
+  text-align: center;
+  border-right: 1px solid rgba(184,150,90,.2);
+}
+.stat-item:last-child { border-right: none; }
+.stat-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  color: var(--gold);
+  display: block;
+  line-height: 1;
+}
+.stat-label {
+  font-size: 11px;
+  color: rgba(255,255,255,.45);
+  margin-top: 4px;
+  display: block;
+}
+
+/* ── MAIN LAYOUT ──────────────────────────── */
+.main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  max-width: 1100px;
+  width: 100%;
+  margin: 32px auto;
+  gap: 24px;
+  padding: 0 24px;
+}
+
+/* ── SIDEBAR ──────────────────────────────── */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.panel {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.panel-header {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.panel-title {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--stone);
+}
+.panel-count {
+  font-size: 11px;
+  padding: 2px 8px;
+  background: var(--gold-pale);
+  color: var(--gold);
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.lead-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background .15s;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.lead-item:last-child { border-bottom: none; }
+.lead-item:hover { background: var(--gold-pale); }
+.lead-item.active { background: var(--gold-pale); border-left: 3px solid var(--gold); }
+
+.lead-avatar {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--gold-light);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 500; color: var(--gold);
+  flex-shrink: 0;
+}
+.lead-info { flex: 1; min-width: 0; }
+.lead-name { font-size: 13px; font-weight: 500; color: var(--dark); }
+.lead-detail { font-size: 11px; color: var(--stone); margin-top: 2px; }
+.lead-badge {
+  display: inline-block;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-top: 5px;
+  font-weight: 500;
+}
+.badge-hot { background: var(--red-light); color: var(--red); }
+.badge-visit { background: var(--amber-light); color: var(--amber); }
+.badge-new { background: var(--green-light); color: var(--green); }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+.stat-cell {
+  padding: 16px;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+}
+.stat-cell:nth-child(2n) { border-right: none; }
+.stat-cell:nth-child(n+3) { border-bottom: none; }
+.stat-big {
+  font-family: 'DM Serif Display', serif;
+  font-size: 26px;
+  color: var(--dark);
+  display: block;
+  line-height: 1;
+}
+.stat-big.green { color: var(--green); }
+.stat-small {
+  font-size: 11px;
+  color: var(--stone);
+  margin-top: 5px;
+  display: block;
+}
+
+/* ── CHAT ─────────────────────────────────── */
+.chat-wrapper {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 560px;
+}
+
+.chat-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--gold-pale);
+}
+.chat-lead-info { display: flex; align-items: center; gap: 12px; }
+.chat-avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--gold-light);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Serif Display', serif;
+  font-size: 15px; color: var(--gold);
+  flex-shrink: 0;
+}
+.chat-name { font-size: 14px; font-weight: 500; color: var(--dark); }
+.chat-sub { font-size: 12px; color: var(--stone); margin-top: 2px; }
+.property-pill {
+  font-size: 11px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: #fff;
+  border: 1px solid var(--border);
+  color: var(--stone);
+}
+
+.messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 300px;
+  max-height: 360px;
+  background: var(--cream);
+}
+
+.msg { display: flex; flex-direction: column; gap: 4px; max-width: 82%; }
+.msg-bot { align-self: flex-start; }
+.msg-user { align-self: flex-end; }
+
+.bubble {
+  padding: 11px 15px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  border-radius: 4px 14px 14px 14px;
+}
+.bubble-bot {
+  background: #fff;
+  color: var(--dark);
+  border: 1px solid var(--border);
+  border-radius: 4px 14px 14px 14px;
+}
+.bubble-user {
+  background: var(--dark);
+  color: #F7F4EF;
+  border-radius: 14px 4px 14px 14px;
+}
+.msg-time {
+  font-size: 10px;
+  color: var(--stone);
+}
+.msg-bot .msg-time { text-align: left; padding-left: 4px; }
+.msg-user .msg-time { text-align: right; padding-right: 4px; }
+
+.typing-row { display: flex; flex-direction: column; gap: 4px; align-self: flex-start; }
+.typing-bubble {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 4px 14px 14px 14px;
+  padding: 12px 16px;
+  display: flex; gap: 5px; align-items: center;
+}
+.dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--stone);
+  animation: blink 1.2s infinite;
+}
+.dot:nth-child(2) { animation-delay: .2s; }
+.dot:nth-child(3) { animation-delay: .4s; }
+@keyframes blink { 0%,80%,100%{opacity:.2} 40%{opacity:1} }
+
+.quick-replies {
+  padding: 12px 20px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--border);
+  background: var(--gold-pale);
+}
+.qr {
+  font-size: 12px;
+  padding: 7px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(184,150,90,.4);
+  background: #fff;
+  color: var(--dark);
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.qr:hover { background: var(--gold-light); border-color: var(--gold); color: var(--dark); }
+
+.input-row {
+  padding: 14px 20px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 10px;
+  background: #fff;
+}
+.input-row input {
+  flex: 1;
+  font-size: 13px;
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--cream);
+  color: var(--dark);
+  font-family: 'DM Sans', sans-serif;
+  outline: none;
+  transition: border-color .15s;
+}
+.input-row input:focus { border-color: var(--gold); }
+.send-btn {
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  border: none;
+  background: var(--dark);
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  transition: background .15s;
+}
+.send-btn:hover { background: var(--gold); color: var(--dark); }
+
+/* ── FOOTER ───────────────────────────────── */
+footer {
+  text-align: center;
+  padding: 24px;
+  font-size: 12px;
+  color: var(--stone);
+  border-top: 1px solid var(--border);
+}
+footer strong { color: var(--dark); }
+
+/* ── RESPONSIVE ───────────────────────────── */
+@media (max-width: 700px) {
+  .main { grid-template-columns: 1fr; padding: 0 12px; }
+  .hero { padding: 28px 16px 36px; }
+  .hero-stats { flex-direction: column; }
+  .topbar { padding: 0 16px; }
+  .topbar-right .demo-badge { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">
+    <div class="logo-icon">AI</div>
+    AgentImmo
+  </div>
+  <div class="topbar-right">
+    <div class="status-pill">
+      <span class="status-dot"></span>
+      Agent IA actif
+    </div>
+    <span class="demo-badge">DÉMO</span>
+  </div>
+</div>
+
+<div class="hero">
+  <h1>Votre agent immobilier<br/><em>ne dort jamais.</em></h1>
+  <p>Qualification automatique des leads, réponses instantanées 24h/24, planification de visites — sans intervention humaine.</p>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <span class="stat-num">24/7</span>
+      <span class="stat-label">Disponibilité</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">&lt;2s</span>
+      <span class="stat-label">Temps de réponse</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">78%</span>
+      <span class="stat-label">Leads qualifiés</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">0</span>
+      <span class="stat-label">Leads perdus</span>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="sidebar">
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Leads entrants</span>
+        <span class="panel-count">3 actifs</span>
+      </div>
+      <div class="lead-item active" onclick="selectLead(0)" id="lead-0">
+        <div class="lead-avatar">SM</div>
+        <div class="lead-info">
+          <div class="lead-name">Sophie Marchand</div>
+          <div class="lead-detail">3P · Paris 11e · 450k€</div>
+          <span class="lead-badge badge-hot">Chaud</span>
+        </div>
+      </div>
+      <div class="lead-item" onclick="selectLead(1)" id="lead-1">
+        <div class="lead-avatar">TR</div>
+        <div class="lead-info">
+          <div class="lead-name">Thomas Renard</div>
+          <div class="lead-detail">Studio · Paris 9e · 200k€</div>
+          <span class="lead-badge badge-visit">Visite planif.</span>
+        </div>
+      </div>
+      <div class="lead-item" onclick="selectLead(2)" id="lead-2">
+        <div class="lead-avatar">CD</div>
+        <div class="lead-info">
+          <div class="lead-name">Claire & Marc Dupont</div>
+          <div class="lead-detail">Maison · Banlieue ouest · 650k€</div>
+          <span class="lead-badge badge-new">Nouveau</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Cette semaine</span>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-cell">
+          <span class="stat-big">12</span>
+          <span class="stat-small">Leads reçus</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-big green">78%</span>
+          <span class="stat-small">Qualifiés</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-big">5</span>
+          <span class="stat-small">Visites planif.</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-big">0</span>
+          <span class="stat-small">Perdus</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chat-wrapper">
+    <div class="chat-header">
+      <div class="chat-lead-info">
+        <div class="chat-avatar" id="chat-avatar">SM</div>
+        <div>
+          <div class="chat-name" id="chat-name">Sophie Marchand</div>
+          <div class="chat-sub" id="chat-sub">Intéressée par un 3 pièces · Paris 11e</div>
+        </div>
+      </div>
+      <span class="property-pill" id="prop-tag">Appt. 75011</span>
+    </div>
+
+    <div class="messages" id="messages"></div>
+
+    <div class="quick-replies" id="quick-replies"></div>
+
+    <div class="input-row">
+      <input type="text" id="user-input" placeholder="Répondre en tant que prospect…" onkeydown="if(event.key==='Enter')sendMsg()"/>
+      <button class="send-btn" onclick="sendMsg()">Envoyer →</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Démo réalisée par <strong>votre nom / agence</strong> · Agent IA personnalisable pour votre activité &nbsp;·&nbsp;
+  <a href="mailto:mambinih@gmail.com" style="color:var(--gold);">Contactez-nous</a>
+</footer>
+
+<script>
+const leads = [
+  {
+    initials:"SM", name:"Sophie Marchand",
+    sub:"Intéressée par un 3 pièces · Paris 11e", tag:"Appt. 75011",
+    history:[
+      {role:"bot",text:"Bonjour Sophie ! Je suis l'assistant de l'agence ImmoTech. Vous avez consulté notre annonce pour le 3 pièces rue de la Roquette. Je peux vous renseigner ?",time:"09:14"},
+      {role:"user",text:"Oui, j'aimerais en savoir plus sur le bien.",time:"09:15"},
+      {role:"bot",text:"Avec plaisir ! Il s'agit d'un 3P de 68m² au 3e étage, entièrement rénové en 2022. Double exposition, parquet ancien, cuisine équipée. Affiché à 449 000 €. Votre budget est-il dans cette fourchette ?",time:"09:15"},
+    ],
+    qr:["Oui, ça correspond","C'est un peu cher","Vous avez d'autres biens ?","Je veux une visite"]
+  },
+  {
+    initials:"TR", name:"Thomas Renard",
+    sub:"Recherche un studio · Paris 9e", tag:"Studio 75009",
+    history:[
+      {role:"bot",text:"Bonjour Thomas ! Votre visite du studio rue de Clichy est confirmée pour samedi à 14h. Avez-vous des questions avant de venir ?",time:"10:30"},
+      {role:"user",text:"Le parking est-il inclus dans le prix ?",time:"10:32"},
+      {role:"bot",text:"Non, le parking n'est pas inclus. Il existe un parking public à 80m. Souhaitez-vous que je me renseigne sur des box à louer dans le secteur ?",time:"10:33"},
+    ],
+    qr:["Oui, renseignez-vous","Ce n'est pas grave","Rappeler l'adresse exacte","Annuler la visite"]
+  },
+  {
+    initials:"CD", name:"Claire & Marc Dupont",
+    sub:"Cherchent une maison · Banlieue ouest", tag:"Maison 92/78",
+    history:[
+      {role:"bot",text:"Bonjour ! Bienvenue chez ImmoTech. Vous êtes à la recherche d'une maison en banlieue ouest. Pour mieux vous accompagner : combien de chambres minimum souhaitez-vous ?",time:"14:05"},
+    ],
+    qr:["3 chambres minimum","4 chambres ou plus","Jardin obligatoire","Proche école primaire"]
+  }
+];
+
+const botReplies = {
+  "Oui, ça correspond":"Super ! Pour organiser une visite, êtes-vous disponible en semaine ou le week-end ? Nous avons des créneaux dès cette semaine.",
+  "C'est un peu cher":"Je comprends. Le propriétaire est ouvert à une négociation raisonnable. Quel budget aviez-vous en tête ? Je peux vérifier la marge de manœuvre.",
+  "Vous avez d'autres biens ?":"Bien sûr ! J'ai deux autres 3P dans le secteur : rue de Charonne à 420 000 € (62m²) et boulevard Voltaire à 470 000 € (72m², ascenseur). Je vous envoie les fiches ?",
+  "Je veux une visite":"Parfait ! Nos créneaux disponibles : mardi 18h30, jeudi 12h ou samedi 10h. Lequel vous convient le mieux ?",
+  "Oui, renseignez-vous":"Je fais ça de suite et je vous rappelle dans la journée avec les options disponibles. À tout à l'heure !",
+  "Ce n'est pas grave":"Parfait ! On se retrouve samedi à 14h au 22 rue de Clichy, 75009 Paris — 2e étage, sonnez RENAUD. Code portail : 1492B.",
+  "Rappeler l'adresse exacte":"22 rue de Clichy, 75009 Paris. 2e étage, sonnez RENAUD. Code portail : 1492B. À samedi !",
+  "Annuler la visite":"Pas de problème, je note l'annulation. Souhaitez-vous fixer une autre date ou que je vous recontacte la semaine prochaine ?",
+  "3 chambres minimum":"Noté ! Budget 650k€, 3 chambres mini, banlieue ouest. Avez-vous une préférence : Hauts-de-Seine (92) ou Yvelines (78) ?",
+  "4 chambres ou plus":"4 chambres, je note. Avec votre budget c'est tout à fait réalisable. Préférez-vous le 92 ou le 78 ?",
+  "Jardin obligatoire":"Jardin obligatoire, très bien ! Quelle surface minimum vous semblerait convenable ? Et quel secteur — 92 ou 78 ?",
+  "Proche école primaire":"Noté. Je filtre sur les zones avec de bonnes écoles primaires. Quel secteur géographique préférez-vous ?"
+};
+
+let currentLead = 0;
+let responding = false;
+
+function now() {
+  const d = new Date();
+  return d.getHours() + ":" + String(d.getMinutes()).padStart(2,"0");
+}
+
+function renderMessages() {
+  const box = document.getElementById("messages");
+  box.innerHTML = "";
+  leads[currentLead].history.forEach(m => {
+    const div = document.createElement("div");
+    div.className = "msg msg-" + (m.role === "bot" ? "bot" : "user");
+    div.innerHTML = `<div class="bubble bubble-${m.role === "bot" ? "bot" : "user"}">${m.text}</div><div class="msg-time">${m.time}</div>`;
+    box.appendChild(div);
+  });
+  box.scrollTop = box.scrollHeight;
+  renderQR();
+}
+
+function renderQR() {
+  const qrBox = document.getElementById("quick-replies");
+  qrBox.innerHTML = "";
+  leads[currentLead].qr.forEach(q => {
+    const btn = document.createElement("button");
+    btn.className = "qr";
+    btn.textContent = q;
+    btn.onclick = () => handleQR(q);
+    qrBox.appendChild(btn);
+  });
+}
+
+function selectLead(i) {
+  currentLead = i;
+  document.querySelectorAll(".lead-item").forEach((c,j) => c.classList.toggle("active", j === i));
+  const l = leads[i];
+  document.getElementById("chat-avatar").textContent = l.initials;
+  document.getElementById("chat-name").textContent = l.name;
+  document.getElementById("chat-sub").textContent = l.sub;
+  document.getElementById("prop-tag").textContent = l.tag;
+  renderMessages();
+}
+
+function addMsg(role, text) {
+  leads[currentLead].history.push({role, text, time: now()});
+  renderMessages();
+}
+
+function showTyping() {
+  const box = document.getElementById("messages");
+  const div = document.createElement("div");
+  div.className = "typing-row"; div.id = "typing-ind";
+  div.innerHTML = `<div class="typing-bubble"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+}
+
+function removeTyping() {
+  const t = document.getElementById("typing-ind");
+  if (t) t.remove();
+}
+
+function handleQR(text) {
+  if (responding) return;
+  addMsg("user", text);
+  document.getElementById("quick-replies").innerHTML = "";
+  responding = true;
+  showTyping();
+  setTimeout(() => {
+    removeTyping();
+    const reply = botReplies[text] || "Merci pour votre message ! Un conseiller va reprendre votre dossier et vous recontactera très rapidement.";
+    addMsg("bot", reply);
+    responding = false;
+    renderQR();
+  }, 1200);
+}
+
+function sendMsg() {
+  if (responding) return;
+  const input = document.getElementById("user-input");
+  const val = input.value.trim();
+  if (!val) return;
+  input.value = "";
+  addMsg("user", val);
+  document.getElementById("quick-replies").innerHTML = "";
+  responding = true;
+  showTyping();
+  setTimeout(() => {
+    removeTyping();
+    addMsg("bot", "Merci pour votre message ! Je prends bien note de votre demande et vous mets en contact avec l'un de nos conseillers dans les plus brefs délais. Puis-je vous aider avec autre chose ?");
+    responding = false;
+    renderQR();
+  }, 1400);
+}
+
+renderMessages();
+</script>
+</body>
+</html>
